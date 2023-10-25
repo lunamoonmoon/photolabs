@@ -38,6 +38,36 @@ const appReducer = (state, action) => {
   }
 };
 
+
+
+const [input, setInput] = useState('');
+
+const fetchSearch = (value) => {
+useEffect(() => {
+  fetch("/api/photos", {
+    method: 'GET'
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      const searchResults = json.filter((photo) => {
+        return (
+          value &&
+          photo.tile.toLowerCase().includes(value)
+        )
+      })
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+}, []);
+};
+
+const handleChange = (value) => {
+  setInput(value);
+  fetchSearch(value);
+}
+
+
 const useApplicationData = () => {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
