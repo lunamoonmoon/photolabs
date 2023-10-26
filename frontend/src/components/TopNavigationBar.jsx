@@ -5,13 +5,13 @@ import TopicList from './TopicList';
 import FavBadge from './FavBadge';
 import PhotoSearch from './PhotoSearch';
 
-const TopNavigation = ({ topicData, photoData, state, handleTopicSelect }) => {
+const TopNavigation = ({ topicData, photoData, state, handleTopicSelect, handleSearch }) => {
 
   return (
     <div className="top-nav-bar">
       <span className="top-nav-bar__logo">PhotoLabs</span>
       < TopicList topicData={topicData} handleTopicSelect={handleTopicSelect} />
-      < PhotoSearch photoData={photoData} />
+      < PhotoSearch photoData={photoData} handleSearch={handleSearch} state={state} />
       < FavBadge selected={state.favPhotos.length > 0} displayAlert={state.favPhotos.length > 0} />
     </div>
   )

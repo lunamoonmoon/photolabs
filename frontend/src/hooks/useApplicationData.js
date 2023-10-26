@@ -6,6 +6,7 @@ const initialState = {
   favPhotos: [],
   photoData: [],
   topicData: [],
+  searchInput: '',
 };
 
 const actionTypes = {
@@ -15,6 +16,7 @@ const actionTypes = {
   setTopicData: 'setTopicData',
   addFavPhoto: 'addFavPhoto',
   removeFavPhoto: 'removeFavPhoto',
+  setSearchInput: 'setSearchInput',
 };
 
 const appReducer = (state, action) => {
@@ -30,43 +32,15 @@ const appReducer = (state, action) => {
     case 'addFavPhoto':
       return {...state, favPhotos: [...state.favPhotos, action.payload]};
     case 'removeFavPhoto':
-      return {...state, favPhotos: action.payload}
+      return {...state, favPhotos: action.payload};
+    case 'setSearchInput':
+      return {...state, searchInput: action.payload};
     default:
       throw new Error(
         `Tried to reduce with unsupported action type: ${action.type}`
       );
   }
 };
-
-
-
-const [input, setInput] = useState('');
-
-const fetchSearch = (value) => {
-useEffect(() => {
-  fetch("/api/photos", {
-    method: 'GET'
-  })
-    .then((response) => response.json())
-    .then((json) => {
-      const searchResults = json.filter((photo) => {
-        return (
-          value &&
-          photo.tile.toLowerCase().includes(value)
-        )
-      })
-    })
-    .catch((error) => {
-      console.log(error);
-    })
-}, []);
-};
-
-const handleChange = (value) => {
-  setInput(value);
-  fetchSearch(value);
-}
-
 
 const useApplicationData = () => {
   const [state, dispatch] = useReducer(appReducer, initialState);
@@ -82,7 +56,6 @@ const useApplicationData = () => {
       })
   }, [])
 
-    // this should go to /topics/photos/:id
   useEffect(() => {
     fetch(`/api/topics`, {
       method: 'GET'
@@ -93,6 +66,12 @@ const useApplicationData = () => {
         console.log(error);
       })
    }, [])
+
+  useEffect(() => {
+    const searchPhotos = state.photoData.filter(photo => photo.location.city.toLowerCase().includes(state.searchInput.toLowerCase()));
+    console.log("searchphotos", searchPhotos);
+    dispatch({ type: actionTypes.setPhotoData, payload: searchPhotos });
+  }, [state.searchInput]);
 
   const openModal = (photo) => {
     dispatch({ type: actionTypes.openModal, payload: photo });
@@ -113,6 +92,9 @@ const useApplicationData = () => {
     .then((res) => res.json())
     .then((data) => dispatch({type: actionTypes.setPhotoData, payload: data}))
   }
+  const handleSearch = (searchData) => {
+    dispatch({ type: actionTypes.setSearchInput, payload: (searchData)});
+  }
 
   return {
     state,
@@ -120,6 +102,7 @@ const useApplicationData = () => {
     closeModal,
     handleFav,
     handleTopicSelect,
+    handleSearch,
   };
 };
 
