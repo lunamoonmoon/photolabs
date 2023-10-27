@@ -4,6 +4,9 @@ import "../styles/PhotoListItem.scss";
 import PhotoFavButton from './PhotoFavButton';
 
 const PhotoListItem = ({ photo, openModal, state, handleFav }) => {
+  const onPhotoClick = () => {
+    openModal(photo);
+   }
 
   return (
     <div>
@@ -12,7 +15,7 @@ const PhotoListItem = ({ photo, openModal, state, handleFav }) => {
         <img
           src={photo.urls.full}
           className="photo-list__image"
-          onClick = {() => openModal(photo)}
+          onClick={onPhotoClick}
         />
         <h2 className="photo-list__user-details">{photo.user.username}</h2>
         <h2 className="photo-list__user-location">

@@ -69,7 +69,6 @@ const useApplicationData = () => {
 
   useEffect(() => {
     const searchPhotos = state.photoData.filter(photo => photo.location.city.toLowerCase().includes(state.searchInput.toLowerCase()));
-    console.log("searchphotos", searchPhotos);
     dispatch({ type: actionTypes.setPhotoData, payload: searchPhotos });
   }, [state.searchInput]);
 

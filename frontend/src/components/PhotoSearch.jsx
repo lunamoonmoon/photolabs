@@ -2,7 +2,6 @@ import React from "react";
 import '../styles/PhotoSearch.scss';
 
 const PhotoSearch = ({ handleSearch, state }) => {
-  console.log(state);
 
   return (
     <div className="photo-search">

@@ -5,7 +5,7 @@ import closeSymbol from '../assets/closeSymbol.svg';
 import PhotoFavButton from 'components/PhotoFavButton';
 import PhotoList from 'components/PhotoList';
 
-const PhotoDetailsModal = ({ state, closeModal, handleFav }) => {
+const PhotoDetailsModal = ({ state, closeModal, handleFav, openModal }) => {
   const photo = state.photo;
   const similarPhotos = photo.similar_photos;
 
@@ -30,7 +30,7 @@ const PhotoDetailsModal = ({ state, closeModal, handleFav }) => {
 
       <h3 className='photo-details-modal__header' >Similar Photos</h3>
       <div className='photo-details-modal__images'>
-        <PhotoList photoData={Object.values(similarPhotos)} state={state} handleFav={handleFav} openModal={null}/>
+        <PhotoList photoData={Object.values(similarPhotos)} state={state} handleFav={handleFav} openModal={() => {}}/>
       </div>
     </a>
   )
